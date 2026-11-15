@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.5 89.5" role="img" aria-label="1WEB">
+  <defs>
+    <linearGradient id="o" x1="0" y1="0" x2="0" y2="89.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FCB514"/><stop offset="1" stop-color="#E27C1F"/></linearGradient>
+    <linearGradient id="b1" x1="0" y1="36" x2="0" y2="89.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#773E96"/><stop offset="1" stop-color="#572D7C"/></linearGradient>
+    <radialGradient id="b2" cx="106" cy="42" r="34" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#552C7A"/><stop offset="1" stop-color="#703A91"/></radialGradient>
+    <linearGradient id="e" x1="72.5" y1="72.5" x2="110" y2="110" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#532B79"/><stop offset="1" stop-color="#773E96"/></linearGradient>
+  </defs>
+  <path fill="url(#o)" d="M0 17.4 12 0h23v89.5H12V17.4z"/>
+  <path fill="url(#b1)" d="M42 0h23v89.5H42z"/>
+  <path fill="url(#b2)" d="M81.5 0H105v89.5H81.5z"/>
+  <path fill="url(#e)" d="M126 0h64.6v17.1H147.8v18.4h33.5v16.9h-33.5v19.5h42.8v17.6H126z"/>
+  <path fill="#773E96" d="M81.6 0H105L65 89.5H42zM121.5 0h22.7l-39.4 89.5H81.5z"/>
+  <path fill="#773E96" fill-rule="evenodd" d="M197 0h47.5C259.5 0 269 8.3 269 21.5c0 9.3-5 16.8-13.3 21 9.6 3 15.8 10.6 15.8 21.3 0 15.2-10.7 25.7-26.5 25.7H197zM218.3 16H237c6.5 0 10 3.7 10 9.6s-3.5 9.9-10 9.9h-18.7zm0 35.8H238c7 0 11 3.8 11 10.3s-4 10.6-11 10.6h-19.7z"/>
+</svg>
