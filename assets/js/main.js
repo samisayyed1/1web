@@ -307,12 +307,12 @@
     var solids = parts.filter(function (p) { return strokes.indexOf(p) < 0; });
     gsap.set(solids, { yPercent: 102 });
     gsap.set(strokes, { x: 46, y: -102 });
-    var itl = gsap.timeline({ delay: .1 });
-    itl.to(solids, { yPercent: 0, duration: .75, ease: 'expo.out', stagger: .045 }, 0)
-       .to(strokes, { x: 0, y: 0, duration: .8, ease: 'expo.out', stagger: .06 }, .12)
-       .from($$('.intro__tag span', intro), { yPercent: 110, duration: .7, ease: 'expo.out', stagger: .06 }, .2)
-       .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: .85, ease: 'expo.inOut' }, '+=.18')
-       .add(startPage, '-=.5')
+    var itl = gsap.timeline({ delay: .05 });
+    itl.to(solids, { yPercent: 0, duration: .7, ease: 'expo.out', stagger: .04 }, 0)
+       .to(strokes, { x: 0, y: 0, duration: .75, ease: 'expo.out', stagger: .05 }, .1)
+       .from($$('.intro__tag span', intro), { yPercent: 110, duration: .6, ease: 'expo.out', stagger: .05 }, .15)
+       .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: .8, ease: 'expo.inOut' }, '+=.05')
+       .add(startPage, '-=.55')
        .add(function () {
          intro.remove();
          d.classList.remove('has-intro');
