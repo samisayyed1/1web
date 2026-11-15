@@ -107,8 +107,10 @@ body {
 [data-theme="plum"] { background-color: var(--plum-bg); color: var(--text); }
 [data-theme="cream"] { background-color: var(--cream); color: var(--cream-ink); --muted: rgba(23, 12, 34, .68); --line: rgba(23, 12, 34, .14); --faint: rgba(23, 12, 34, .1); }
 /* When JS drives the background colour, sections let the body colour show through */
-html.bg-anim main > section[data-theme],
+html.bg-anim main > section[data-theme]:not([data-theme="cream"]),
 html.bg-anim .footer { background-color: transparent; }
+/* Light sections always keep their own solid background so their dark text can never sit on a dark page. */
+html.bg-anim main > section[data-theme="cream"] { background-color: var(--cream); }
 
 /* ---------- Type ---------- */
 .eyebrow {

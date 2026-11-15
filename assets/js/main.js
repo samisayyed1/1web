@@ -245,6 +245,8 @@
   d.classList.add('bg-anim');
   var currentTheme = 'ink';
   function setTheme(t) {
+    // Light sections paint their own background, so only dark-to-dark changes are animated.
+    if (t === 'cream') return;
     if (t === currentTheme || !THEME[t]) return;
     currentTheme = t;
     gsap.to(body, { backgroundColor: THEME[t], duration: reduce ? 0 : .7, ease: 'power2.out', overwrite: true });
@@ -349,8 +351,15 @@
     ScrollTrigger.batch(reveals, {
       start: 'top 90%', once: true,
       onEnter: function (batch) {
-        gsap.to(batch, { autoAlpha: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: .08, overwrite: true });
-        batch.forEach(function (el) { if (el.classList.contains('feature')) el.classList.add('is-in'); });
+        // A fast scroll (or a nav jump) can fire dozens at once: show anything already scrolled past
+        // immediately, and animate only what's on screen with a short, capped stagger.
+        var inView = [], passed = [];
+        batch.forEach(function (el) {
+          (el.getBoundingClientRect().bottom < 0 ? passed : inView).push(el);
+          if (el.classList.contains('feature')) el.classList.add('is-in');
+        });
+        if (passed.length) gsap.set(passed, { autoAlpha: 1, y: 0, overwrite: true });
+        if (inView.length) gsap.to(inView, { autoAlpha: 1, y: 0, duration: 1, ease: 'expo.out', stagger: Math.min(.08, .32 / inView.length), overwrite: true });
       }
     });
   }
@@ -463,7 +472,9 @@
     var tl = gsap.timeline({
       scrollTrigger: {
         trigger: section, start: 'top top', end: function () { return '+=' + dist(); },
-        pin: true, scrub: .8, invalidateOnRefresh: true, anticipatePin: 1
+        pin: true, scrub: .8, invalidateOnRefresh: true, anticipatePin: 1,
+        // Refresh this pin before everything else so triggers below it include its scroll distance.
+        refreshPriority: 1
       }
     });
     tl.to(track, { x: function () { return -dist(); }, ease: 'none' }, 0)
@@ -472,6 +483,21 @@
   });
 
   /* Refresh once fonts + images settle (prevents mis-measured pins) */
+  // Triggers were created in code order, not page order — sort them top-to-bottom (pins first) then measure.
+  ScrollTrigger.sort();
+  ScrollTrigger.refresh();
+
+  // Re-measure whenever the content height really changes (e.g. Safari re-flowing split headings
+  // once the web font arrives), so every trigger below stays in sync with the layout.
+  var mainEl = $('main'), lastMainH = 0, refreshT = 0;
+  ScrollTrigger.addEventListener('refresh', function () { lastMainH = mainEl.offsetHeight; });
+  if (window.ResizeObserver) {
+    new ResizeObserver(function () {
+      if (Math.abs(mainEl.offsetHeight - lastMainH) < 2) return;
+      clearTimeout(refreshT);
+      refreshT = setTimeout(function () { ScrollTrigger.refresh(); }, 180);
+    }).observe(mainEl);
+  }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
