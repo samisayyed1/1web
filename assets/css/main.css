@@ -827,11 +827,10 @@ html.bg-anim .numbers::before { opacity: 1; }
 .footer__cols > * { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 .footer__cols p { font-size: .8125rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
 .footer__cols a { font-weight: 550; }
-.footer__featured img { width: 150px; height: auto; }
 .footer__mark { margin-top: clamp(64px, 9vw, 120px); overflow: hidden; }
 .footer__mark svg { width: 100%; height: auto; aspect-ratio: 271.5 / 89.5; }
 .footer__bottom { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; font-size: .875rem; color: var(--muted); }
-@media (min-width: 640px) { .footer__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 640px) { .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1000px) { .footer__top { grid-template-columns: 1fr 1.1fr; gap: 80px; } }
 
 /* ---------- Mobile dock ---------- */
