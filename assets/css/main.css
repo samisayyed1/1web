@@ -652,7 +652,15 @@ html.bg-anim .numbers::before { opacity: 1; }
 
 /* Horizontal pinned mode (desktop, enabled by JS) */
 .process.is-h { padding-block: 0; }
-.process.is-h .process__pin { height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: var(--header-h); overflow: hidden; }
+/* Everything in the pinned panel is sized from the viewport height so heading + cards always fit one screen. */
+.process.is-h .process__pin {
+  height: 100vh; height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-top: calc(var(--header-h) + 1vh); padding-bottom: 3vh;
+  overflow: hidden;
+}
+.process.is-h .process__head { margin-bottom: clamp(16px, 4vh, 56px); }
+.process.is-h .process__head .h2 { font-size: clamp(2rem, min(1.2rem + 4.2vw, 8.4vh), 6rem); margin-top: clamp(8px, 1.6vh, 18px); }
 .process.is-h .process__progress { display: block; }
 .process.is-h .process__track {
   display: flex; gap: 20px; width: max-content; max-width: none; margin: 0;
@@ -660,9 +668,13 @@ html.bg-anim .numbers::before { opacity: 1; }
   padding-right: var(--pad);
   will-change: transform;
 }
-.process.is-h .step { width: clamp(340px, 31vw, 470px); min-height: min(52svh, 480px); grid-column: auto; }
+.process.is-h .step { width: clamp(340px, 31vw, 470px); min-height: min(48svh, 500px); padding: clamp(18px, 3vh, 40px); grid-column: auto; }
 .process.is-h .step:nth-child(odd) { background: var(--ink-3); }
-.process.is-h .step__n { margin-bottom: auto; padding-bottom: 24px; }
+.process.is-h .step__n { font-size: clamp(2.6rem, 8.5vh, 7rem); margin-bottom: auto; padding-bottom: clamp(10px, 2.4vh, 24px); }
+.process.is-h .step h3 { margin-top: clamp(6px, 1.4vh, 18px); font-size: clamp(1.2rem, 3.1vh, 2rem); }
+.process.is-h .step > p:not(.step__n) { margin-top: clamp(6px, 1.2vh, 12px); font-size: clamp(.875rem, 1.95vh, 1.0625rem); line-height: 1.5; }
+.process.is-h .chips { margin-top: clamp(10px, 1.8vh, 20px); gap: 6px; }
+.process.is-h .chips li { padding: clamp(4px, .7vh, 7px) 12px; font-size: .78rem; }
 
 /* ---------- Services ---------- */
 .services { padding-block: var(--section-y); }

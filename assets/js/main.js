@@ -462,25 +462,52 @@
     });
   });
 
-  // Process: pinned horizontal scroll on desktop
-  mm.add('(min-width: 1000px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)', function () {
-    var section = $('.process');
-    var track = $('[data-process-track]');
-    var bar = $('[data-process-bar]');
-    section.classList.add('is-h');
-    var dist = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
-    var tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section, start: 'top top', end: function () { return '+=' + dist(); },
-        pin: true, scrub: .8, invalidateOnRefresh: true, anticipatePin: 1,
-        // Refresh this pin before everything else so triggers below it include its scroll distance.
-        refreshPriority: 1
-      }
-    });
-    tl.to(track, { x: function () { return -dist(); }, ease: 'none' }, 0)
-      .fromTo(bar, { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0);
-    return function () { section.classList.remove('is-h'); gsap.set(track, { clearProps: 'transform' }); };
-  });
+  // Process: pinned horizontal scroll on desktop — only when the whole panel fits on screen,
+  // otherwise it stays a normal card grid (never clipped).
+  var procSec = $('.process'), procPin = $('.process__pin');
+  var procTrack = $('[data-process-track]'), procBar = $('[data-process-bar]');
+  var procMQ = window.matchMedia('(min-width: 1000px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)');
+  var procTl = null;
+  function procFits() {
+    var had = procSec.classList.contains('is-h');
+    procSec.classList.add('is-h');
+    var ok = procPin.scrollHeight <= procPin.clientHeight + 1;
+    if (!had) procSec.classList.remove('is-h');
+    return ok;
+  }
+  function setupProcess() {
+    var want = procMQ.matches && procFits();
+    if (want && !procTl) {
+      procSec.classList.add('is-h');
+      var dist = function () { return Math.max(0, procTrack.scrollWidth - window.innerWidth); };
+      procTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: procSec, start: 'top top', end: function () { return '+=' + dist(); },
+          pin: true, scrub: .8, invalidateOnRefresh: true, anticipatePin: 1,
+          // Refresh this pin before everything else so triggers below it include its scroll distance.
+          refreshPriority: 1
+        }
+      });
+      procTl.to(procTrack, { x: function () { return -dist(); }, ease: 'none' }, 0)
+        .fromTo(procBar, { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0);
+      return true;
+    }
+    if (!want && procTl) {
+      procTl.scrollTrigger.kill(true);
+      procTl.kill(); procTl = null;
+      gsap.set([procTrack, procBar], { clearProps: 'transform' });
+      procSec.classList.remove('is-h');
+      return true;
+    }
+    return false;
+  }
+  function reevaluateProcess() {
+    if (setupProcess()) { ScrollTrigger.sort(); ScrollTrigger.refresh(); }
+  }
+  setupProcess();
+  var procResizeT = 0;
+  window.addEventListener('resize', function () { clearTimeout(procResizeT); procResizeT = setTimeout(reevaluateProcess, 250); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(reevaluateProcess);
 
   /* Refresh once fonts + images settle (prevents mis-measured pins) */
   // Triggers were created in code order, not page order — sort them top-to-bottom (pins first) then measure.

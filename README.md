@@ -1,6 +1,6 @@
 # 1WEB — website redesign
 
-A redesign of [1web.com](https://www.1web.com/) for 1WEB, a performance-based digital marketing agency from Canada.
+A redesign of [1web.com](https://www.1web.com/) for 1WEB, a premier digital marketing agency from Canada.
 
 **Live:** https://samisayyed1.github.io/1web/
 
