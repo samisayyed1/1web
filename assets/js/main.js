@@ -1,4 +1,4 @@
-/* 1WEB — interactions & motion */
+/* 1WEB: interactions & motion */
 (function () {
   'use strict';
 
@@ -87,7 +87,7 @@
         return;
       }
       note.textContent = noteDefault; note.classList.remove('is-error');
-      var summary = [org.value.trim(), goal ? 'Wants to grow: ' + goal : ''].filter(Boolean).join(' — ');
+      var summary = [org.value.trim(), goal ? 'Wants to grow: ' + goal : ''].filter(Boolean).join(' | ');
       var prefill = { name: name.value.trim(), email: email.value.trim(), customAnswers: summary ? { a1: summary } : {} };
       if (!openCalendly(prefill)) {
         var qs = 'name=' + encodeURIComponent(prefill.name) + '&email=' + encodeURIComponent(prefill.email) + (summary ? '&a1=' + encodeURIComponent(summary) : '');
@@ -260,7 +260,9 @@
 
   /* Active nav link */
   $$('.header__nav a').forEach(function (a) {
-    var sec = $(a.getAttribute('href'));
+    var href = a.getAttribute('href');
+    if (href.charAt(0) !== '#' || href.length < 2) return;
+    var sec = $(href);
     if (!sec) return;
     ScrollTrigger.create({ trigger: sec, start: 'top 50%', end: 'bottom 50%', onToggle: function (self) { a.classList.toggle('is-active', self.isActive); } });
   });
@@ -462,9 +464,10 @@
     });
   });
 
-  // Process: pinned horizontal scroll on desktop — only when the whole panel fits on screen,
-  // otherwise it stays a normal card grid (never clipped).
+  // Process: pinned horizontal scroll on desktop, only when the whole panel fits on screen,
+  // otherwise it stays a normal card grid (never clipped). Pages without it skip this block.
   var procSec = $('.process'), procPin = $('.process__pin');
+  if (procSec && procPin) {
   var procTrack = $('[data-process-track]'), procBar = $('[data-process-bar]');
   var procMQ = window.matchMedia('(min-width: 1000px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)');
   var procTl = null;
@@ -508,9 +511,10 @@
   var procResizeT = 0;
   window.addEventListener('resize', function () { clearTimeout(procResizeT); procResizeT = setTimeout(reevaluateProcess, 250); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reevaluateProcess);
+  }
 
   /* Refresh once fonts + images settle (prevents mis-measured pins) */
-  // Triggers were created in code order, not page order — sort them top-to-bottom (pins first) then measure.
+  // Triggers were created in code order, not page order: sort them top-to-bottom (pins first) then measure.
   ScrollTrigger.sort();
   ScrollTrigger.refresh();
 

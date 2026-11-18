@@ -1,12 +1,12 @@
-# 1WEB — website redesign
+# 1WEB website redesign
 
-A redesign of [1web.com](https://www.1web.com/) for 1WEB, a premier digital marketing agency from Canada.
+A redesign of [1web.com](https://www.1web.com/) for 1WEB, a growth marketing agency from Canada. The homepage speaks to startups and growing brands; fundraising work has its own page.
 
 **Live:** https://samisayyed1.github.io/1web/
 
 ## What's inside
 
-- **Single static page**: no build step. Hosted on GitHub Pages.
+- **Static pages**: `index.html` (startups and brands) and `nonprofits.html` (charities). No build step. Hosted on GitHub Pages.
 - **Brand**: keeps the original 1WEB logo, rebuilt as a crisp vector (`assets/img/logo.svg`, `logo-white.svg`). Uses the brand purple (#9236C3, #532B79 → #773E96) and the orange → gold gradient (#E27C1F → #FCB514).
 - **Type**: Mona Sans (variable width and weight), from Google Fonts.
 - **Motion**:
@@ -24,7 +24,8 @@ A redesign of [1web.com](https://www.1web.com/) for 1WEB, a premier digital mark
 ## Structure
 
 ```
-index.html
+index.html            homepage: startups and growing brands
+nonprofits.html       fundraising work for charities and nonprofits
 assets/css/main.css
 assets/js/main.js     interactions, scroll motion, menu, FAQ, booking
 assets/js/gl.js       hero shader
@@ -41,4 +42,13 @@ Then open http://localhost:8000.
 
 ## Content notes
 
-All copy, stats, testimonials and partner logos come from the current 1web.com. The original site gives two different figures in places, "50+ marketers" and "35+ marketers", so confirm the stats before launch.
+The copy avoids em dashes and stock agency phrasing on purpose. Keep it that way when editing.
+
+**Placeholders to confirm before launch.** Each one has a dashed gold outline on the page (class `tbc`), and a `TBC` comment marks it in the HTML.
+
+- Hero and "By the numbers": ad spend managed (`$XM+`), average ROAS (`X.X×`) and client retention (`XX%`).
+- Case studies for Zown, Product Faculty and World Travel Awards. The headline metric is a placeholder, and the scope line and channel chips are a best guess.
+- Client names in the logo strip are text wordmarks. Swap in official logo files when they're available.
+- Partner badges are text placeholders. Swap in the official Google Partner and Meta Business Partner badge artwork.
+
+The Human Concern International story and every figure on the nonprofits page come from the current 1web.com. The original site gives two different figures for team size, "50+ marketers" and "35+ marketers", so confirm which is right.
